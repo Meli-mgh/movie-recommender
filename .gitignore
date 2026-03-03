@@ -1,0 +1,10 @@
+#python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+*.json
+
+# Environment variables
+.env
