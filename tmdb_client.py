@@ -30,9 +30,12 @@ def get_keywords(movie_id):
     
     
 def get_similar(movie_id):
-    response= requests.get(f"{BASE_URL}/movie/{movie_id}/similar", params={"api_key": config.TMDB_KEY})
+    response = requests.get(f"{BASE_URL}/movie/{movie_id}/similar", params={"api_key": config.TMDB_KEY})
     data = response.json()
     return data.get("results", [])
 
 
-
+def get_credits(movie_id):
+    response = requests.get(f"{BASE_URL}/movie/{movie_id}/credits", params={"api_key": config.TMDB_KEY})
+    data = response.json()
+    return data
