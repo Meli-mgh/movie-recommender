@@ -60,5 +60,5 @@ def _rating_score(seed, candidate):
 
 def _get_director(movie):
     credits = tmdb_client.get_credits(movie["id"])
-    return set(p["name"] for p in credits["crew"] if p["job"] == " director")
+    return set(p["name"] for p in credits["crew"] if p["job"] == "director")
     

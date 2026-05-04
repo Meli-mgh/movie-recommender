@@ -3,7 +3,7 @@ import os
 
 load_dotenv()
 
-TMDB_KEY = os.getenv(TMDB_KEY)
+TMDB_KEY = os.getenv("TMDB_KEY")
 
 WEIGHTS = {
     "genre": 3,
