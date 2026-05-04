@@ -62,3 +62,21 @@ def _get_director(movie):
     credits = tmdb_client.get_credits(movie["id"])
     return set(p["name"] for p in credits["crew"] if p["job"] == "director")
     
+    
+def explain(seed, candidate):
+    reasons = []
+    
+    if _genre_score(seed, candidate) > 0:
+        reasons.append("genre")
+    if _director_score(seed, candidate) > 0:
+        reasons.append("director")
+    if _cast_score(seed, candidate) > 0:
+        reasons.append("cast")
+    if _keyword_score(seed, candidate) > 0:
+        reasons.append("keywords")
+    if _decade_score(seed, candidate) > 0:
+        reasons.append("decade")
+    if _rating_score(seed, candidate) > 0:
+        reasons.append("rating")
+        
+    return "Strong match on "+ ", ".join(reasons) if reasons else "General match"
