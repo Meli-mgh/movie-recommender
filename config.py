@@ -4,6 +4,8 @@ import os
 load_dotenv()
 
 TMDB_KEY = os.getenv("TMDB_KEY")
+if not TMDB_KEY:
+    raise ValueError("TMDB API key not found. Add it to your .env file: TMDB_KEY=your_key_here")
 
 WEIGHTS = {
     "genre": 3,
