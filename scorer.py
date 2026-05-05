@@ -18,9 +18,14 @@ def _genre_score(seed, candidate):
     seed_ids = set(g["id"] for g in seed["genres"])
     candidate_ids = set(g["id"] for g in candidate["genres"])
     overlap = seed_ids & candidate_ids
-    return len(overlap) * config.WEIGHTS["genre"]           
+    return len(overlap) * config.WEIGHTS["genre"]         
+  
               
-
+def _get_director(movie):
+    credits = tmdb_client.get_credits(movie["id"])
+    return set(p["name"] for p in credits["crew"] if p["job"] == "director")
+    
+    
 def _director_score(seed, candidate):
     seed_dirs = _get_director(seed)
     candidate_dirs = _get_director(candidate)
@@ -43,10 +48,16 @@ def _keyword_score(seed, candidate):
     return len(overlap) * config.WEIGHTS["keyword"]
 
 
+def _get_year(movie):
+    date = movie.get("release_date", "")
+    return date.split("-")[0] if date else None
+
 def _decade_score(seed, candidate):
-    seed_year = int(seed["release_date"].split("-")[0])
-    candidate_year = int(candidate["release_date"].split("-")[0])
-    if seed_year//10 == candidate_year//10:
+    seed_year = _get_year(seed)
+    candidate_year = _get_year(candidate)
+    if not seed_year or not candidate_year:
+        return 0
+    if int(seed_year)//10 == int(candidate_year)//10:
         return config.WEIGHTS["decade"]
     return 0
 
@@ -57,11 +68,6 @@ def _rating_score(seed, candidate):
     diff = abs(seed_rating - candidate_rating)
     return max(0, 1 - (diff / 10)) * config.WEIGHTS["rating"]
 
-
-def _get_director(movie):
-    credits = tmdb_client.get_credits(movie["id"])
-    return set(p["name"] for p in credits["crew"] if p["job"] == "director")
-    
     
 def explain(seed, candidate):
     reasons = []

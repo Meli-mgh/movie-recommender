@@ -26,7 +26,7 @@ def get_movie(movie_id):
 def get_keywords(movie_id):
     response = requests.get(f"{BASE_URL}/movie/{movie_id}/keywords", params={"api_key": config.TMDB_KEY})
     data = response.json()
-    return data.get("keywords", [])
+    return data.get("keywords", []) if data else []
     
     
 def get_similar(movie_id):
