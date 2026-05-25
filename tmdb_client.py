@@ -24,6 +24,7 @@ def get_movie(movie_id):
         return cached
     response = requests.get(f"{BASE_URL}/movie/{movie_id}", params=_params())
     data = _handle_response(response)
+    data["keywords"] = get_keywords(movie_id)
     cache.save(data, movie_id)
     return data
 
