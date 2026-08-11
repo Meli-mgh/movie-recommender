@@ -10,6 +10,10 @@ __pycache__/
 # local cache folder
 cache/
 
+# Local project notes and roadmap
+AGENTS.md
+PROJECT_ROADMAP.md
+
 # VS Code
 .vscode/
 
